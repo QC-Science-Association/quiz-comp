@@ -1,3 +1,5 @@
+import { reactive } from "vue";
+
 export enum ElType {
 	am,
 	alm,
@@ -90,6 +92,7 @@ function newEl(symbol: string, name: string, relativeMass: number, type: ElType)
 	};
 }
 
+export const selectedElements = reactive(Array<number>(118).fill(0));
 export const Elements = [
 	newEl("H", "Hydrogen", 1.001, nm),
 	newEl("He", "Helium", 4.003, ng),

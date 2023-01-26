@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Elements, ElTypes } from "@/js/elements";
+import { Elements, ElTypes, selectedElements } from "@/js/elements";
 import { UIState } from "@/js/ui";
 
 const { idx } = defineProps<{
@@ -9,6 +9,17 @@ const { idx } = defineProps<{
 const el = Elements[idx - 1];
 
 const isDisabled = $computed(() => !ElTypes[el.type].about);
+const isUsed = $computed(() => selectedElements[idx - 1]);
+
+function toggleUsed() {
+	if (isUsed) {
+		selectedElements[idx - 1] = 0;
+		UIState.hoveringElement.value = idx;
+	} else {
+		selectedElements[idx - 1] = 1;
+		UIState.hoveringElement.value = 0;
+	}
+}
 </script>
 
 <template>
@@ -16,13 +27,15 @@ const isDisabled = $computed(() => !ElTypes[el.type].about);
 		class="c-element-square"
 		:class="{
 			'c-element-square--disabled': isDisabled,
+			'c-element-square--used': isUsed,
 			'c-element-square--not-current': UIState.hoveringElement.value && UIState.hoveringElement.value !== idx
 		}"
 		:style="{
-			backgroundColor: ElTypes[el.type].colour,
+			'--el-color': ElTypes[el.type].colour,
 		}"
-		@mouseenter="if (!isDisabled) UIState.hoveringElement.value = idx;"
+		@mouseenter="if (!isDisabled && !isUsed) UIState.hoveringElement.value = idx;"
 		@mouseleave="UIState.hoveringElement.value = 0;"
+		@click="toggleUsed();"
 	>
 		<span class="c-element-square__atomic-mass">{{ idx }}</span>
 		<span class="c-element-square__relative-mass">
@@ -42,6 +55,7 @@ const isDisabled = $computed(() => !ElTypes[el.type].about);
 	align-items: center;
 	justify-content: center;
 	color: rgba(255, 255, 255, 0.8);
+	background-color: var(--el-color);
 	cursor: pointer;
 
 	filter: none;
@@ -54,10 +68,20 @@ const isDisabled = $computed(() => !ElTypes[el.type].about);
 	opacity: 0.7;
 }
 
-.c-element-square:not(.c-element-square--disabled):hover {
+.c-element-square:not(.c-element-square--disabled):not(.c-element-square--used):hover {
 	color: white;
 	filter: saturate(2);
 	border-color: white;
+}
+
+.c-element-square--used {
+	background-color: black;
+	filter: brightness(0.5);
+	text-decoration: line-through;
+}
+
+.c-element-square--used:hover {
+	text-decoration: none;
 }
 
 .c-element-square--disabled {
