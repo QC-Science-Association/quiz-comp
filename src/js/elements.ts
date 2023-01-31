@@ -43,7 +43,7 @@ export const ElTypes: Record<ElType, ElData> = {
 	},
 	[tm]: {
 		name: "Transition Metals",
-		colour: "#747474",
+		colour: "#636363",
 		about: null,
 	},
 	[bm]: {
@@ -73,12 +73,12 @@ export const ElTypes: Record<ElType, ElData> = {
 	},
 	[lan]: {
 		name: "Lanthanides",
-		colour: "#6b6b6b",
+		colour: "#535353",
 		about: null,
 	},
 	[act]: {
 		name: "Actinides",
-		colour: "#5d5d5d",
+		colour: "#434343",
 		about: null,
 	},
 };
