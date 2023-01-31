@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { toRaw } from "vue";
+
 import { Elements, ElTypes, selectedElements } from "@/js/elements";
 import { UIState } from "@/js/ui";
 
@@ -19,6 +21,7 @@ function toggleUsed() {
 		selectedElements[idx - 1] = 1;
 		UIState.hoveringElement.value = 0;
 	}
+	localStorage.setItem("scisoquizcomp", JSON.stringify(toRaw(selectedElements)));
 }
 </script>
 

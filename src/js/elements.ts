@@ -92,7 +92,10 @@ function newEl(symbol: string, name: string, relativeMass: number, type: ElType)
 	};
 }
 
-export const selectedElements = reactive(Array<number>(118).fill(0));
+const savedData = localStorage.getItem("scisoquizcomp");
+export const selectedElements = reactive(savedData ? JSON.parse(savedData) as number[]
+	: Array<number>(118).fill(0));
+
 export const Elements = [
 	newEl("H", "Hydrogen", 1.001, nm),
 	newEl("He", "Helium", 4.003, ng),
